@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+package spawn.nx.protocol;
+
+option java_multiple_files = true;
+option java_package = "spawn.nx.protocol";
+option java_outer_classname = "NxProtos";
+
+message Type {
+    string name = 1; // Name is atom
+    int32 size = 2;
+}
+
+message Shape {
+    // Necessary cast to tuple
+    repeated sint64 tuple = 1;
+}
+
+message Binary {
+    bytes data = 1;
+}
+
+message Tensor {
+    Type type = 1;
+    Shape shape = 2;
+    repeated string names = 3; // Names is atoms
+}

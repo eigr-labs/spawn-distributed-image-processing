@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package spawn.actors.protocol.orchestrator;
+
+option java_multiple_files = true;
+option java_package = "spawn.actors.protocol.orchestrator";
+option java_outer_classname = "SpawnDistributedImageProcessingProtos";
+
+// State Message
+message State {
+    // TODO Found state attributes
+}
+
+message ImageProcessingRequest {
+    bytes image_source_bytes = 1;
+}
+
+message ImageProcessingResponse {
+    bytes image_sink_bytes = 1;
+}

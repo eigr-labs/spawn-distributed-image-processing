@@ -1,0 +1,12 @@
+---
+apiVersion: spawn-eigr.io/v1
+kind: ActorSystem
+metadata:
+  name: sdip-system
+  namespace: default
+spec:
+  statestore:
+    type: MySql
+    credentialsSecretRef: mysql-sdip-settings-secret
+    pool: # Optional
+      size: "10"

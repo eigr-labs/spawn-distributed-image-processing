@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package spawn.actors.protocol.common;
+
+import "nx.proto";
+
+option java_multiple_files = true;
+option java_package = "spawn.actors.protocol.common";
+option java_outer_classname = "SpawnDistributedImageProcessingProtos";
+
+message Image {
+    spawn.nx.protocol.Type type = 1;
+    spawn.nx.protocol.Shape shape = 2;
+    spawn.nx.protocol.Binary binary = 3;
+}
