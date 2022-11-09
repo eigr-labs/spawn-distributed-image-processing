@@ -12,6 +12,8 @@ MIX_ENV=dev PROXY_CLUSTER_STRATEGY=epmd PROXY_DATABASE_TYPE=mysql  PROXY_DATABAS
 
 > **_NOTE:_** This example uses the MySQL database as persistent storage for its actors. And it is also expected that you have previously created a database called eigr-functions-db in the MySQL instance. For more information see Spawn documentation [here](https://github.com/eigr/spawn)
 
+Now in iex console call Orchestrator Actor:
+
 ```elixir
 SpawnDistributedImageProcessing.push_work("priv/images/actor-mesh.png")
 ```
