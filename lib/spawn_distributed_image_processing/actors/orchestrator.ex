@@ -54,6 +54,7 @@ defmodule SpawnDistributedImageProcessing.Actors.Orchestrator do
     image_type = Image.new(binary: source_binary, shape: source_shape, type: source_type)
     request = ProcessRequest.new!(image: image_type)
 
+    # This will start image processing on possibly any other Node
     process_response =
       {:ok,
        %ProcessResponse{
