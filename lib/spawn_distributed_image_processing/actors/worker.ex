@@ -3,6 +3,10 @@ defmodule SpawnDistributedImageProcessing.Actors.Worker do
     abstract: true,
     state_type: Spawn.Actors.Protocol.Worker.State
 
+  require Logger
+
+  alias Spawn.Actors.Protocol.Worker.State
+
   alias SpawnDistributedImageProcessing.Nx.SpawnNx.{
     BinaryConverter,
     ShapeConverter,
@@ -15,9 +19,10 @@ defmodule SpawnDistributedImageProcessing.Actors.Worker do
 
   defact process(
            %ProcessRequest{image: %Image{binary: binary, shape: shape, type: type} = _image_type} =
-             _request,
-           %Context{state: state} = _ctx
+             request,
+           %Context{state: _state} = _ctx
          ) do
+    Logger.debug("Worker Received ProcessRequest: [#{inspect(request)}]")
     source_binary = BinaryConverter.from_proto(binary)
     source_shape = ShapeConverter.from_proto(shape)
     source_type = TypeConverter.from_proto(type)
@@ -40,7 +45,7 @@ defmodule SpawnDistributedImageProcessing.Actors.Worker do
     response = ProcessResponse.new(image: image_type)
 
     %Value{}
-    |> Value.of(response, state)
+    |> Value.of(response, %State{})
     |> Value.reply!()
   end
 

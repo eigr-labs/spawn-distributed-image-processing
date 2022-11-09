@@ -29,11 +29,11 @@ defmodule SpawnDistributedImageProcessing.Nx.SpawnNx do
 
     @spec to_proto(binary) :: ProtoBinary.t()
     def to_proto(binary) when is_binary(binary) do
-      ProtoBinary.new!(data: :binary.bin_to_list(binary))
+      ProtoBinary.new!(data: binary)
     end
 
     @spec from_proto(Spawn.Nx.Protocol.Binary.t()) :: binary
     def from_proto(%ProtoBinary{data: data} = _binary),
-      do: :binary.list_to_bin(data)
+      do: data
   end
 end
