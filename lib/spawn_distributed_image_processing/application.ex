@@ -12,6 +12,7 @@ defmodule SpawnDistributedImageProcessing.Application do
         system: @system,
         actors: [
           SpawnDistributedImageProcessing.Actors.Orchestrator,
+          SpawnDistributedImageProcessing.Actors.Notification,
           SpawnDistributedImageProcessing.Actors.Worker
         ]
       }

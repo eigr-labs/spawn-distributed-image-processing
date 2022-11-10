@@ -1,11 +1,9 @@
 defmodule SpawnDistributedImageProcessing.Actors.Worker do
   use SpawnSdk.Actor,
     abstract: true,
-    state_type: Spawn.Actors.Protocol.Worker.State
+    persistent: false
 
   require Logger
-
-  alias Spawn.Actors.Protocol.Worker.State
 
   alias SpawnDistributedImageProcessing.Nx.SpawnNx.{
     BinaryConverter,
@@ -13,19 +11,20 @@ defmodule SpawnDistributedImageProcessing.Actors.Worker do
     TypeConverter
   }
 
-  alias Spawn.Actors.Protocol.Common.Image
+  alias Spawn.Actors.Domain.Common.Image
 
-  alias Spawn.Actors.Protocol.Worker.{ProcessRequest, ProcessResponse}
+  alias Spawn.Actors.Domain.Worker.{ProcessRequest, ProcessResponse}
 
   defact process(
-           %ProcessRequest{image: %Image{binary: binary, shape: shape, type: type} = _image_type} =
-             request,
-           %Context{state: _state} = _ctx
+           %ProcessRequest{
+             image: %Image{binary: b, shape: s, type: t} = image
+           } = request,
+           %Context{} = _ctx
          ) do
     Logger.debug("Worker Received ProcessRequest: [#{inspect(request)}]")
-    source_binary = BinaryConverter.from_proto(binary)
-    source_shape = ShapeConverter.from_proto(shape)
-    source_type = TypeConverter.from_proto(type)
+    source_binary = BinaryConverter.from_proto(b)
+    source_shape = ShapeConverter.from_proto(s)
+    source_type = TypeConverter.from_proto(t)
 
     dst_img = process_image(source_type, source_shape, source_binary)
 
@@ -41,12 +40,12 @@ defmodule SpawnDistributedImageProcessing.Actors.Worker do
       Nx.type(dst_img)
       |> TypeConverter.to_proto()
 
-    image_type = Image.new(binary: binary, shape: shape, type: type)
+    image_type = %Image{image | binary: binary, shape: shape, type: type}
     response = ProcessResponse.new(image: image_type)
 
-    %Value{}
-    |> Value.of(response, %State{})
-    |> Value.reply!()
+    Value.of()
+    |> Value.effect(SideEffect.to("orchestrator", :complete, response))
+    |> Value.noreply!(force: true)
   end
 
   def process_image(type, shape, binary) do

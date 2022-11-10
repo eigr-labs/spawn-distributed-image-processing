@@ -1,4 +1,4 @@
-defmodule Spawn.Nx.Protocol.Type do
+defmodule Spawn.Actors.Domain.Orchestrator.ImageProcessingRequest do
   @moduledoc false
   use Protobuf, protoc_gen_elixir_version: "0.10.0", syntax: :proto3
 
@@ -14,9 +14,9 @@ defmodule Spawn.Nx.Protocol.Type do
           __unknown_fields__: [],
           default_value: nil,
           extendee: nil,
-          json_name: "name",
+          json_name: "path",
           label: :LABEL_OPTIONAL,
-          name: "name",
+          name: "path",
           number: 1,
           oneof_index: nil,
           options: nil,
@@ -28,87 +28,24 @@ defmodule Spawn.Nx.Protocol.Type do
           __unknown_fields__: [],
           default_value: nil,
           extendee: nil,
-          json_name: "size",
+          json_name: "filename",
           label: :LABEL_OPTIONAL,
-          name: "size",
+          name: "filename",
           number: 2,
           oneof_index: nil,
           options: nil,
           proto3_optional: nil,
-          type: :TYPE_INT32,
+          type: :TYPE_STRING,
           type_name: nil
-        }
-      ],
-      name: "Type",
-      nested_type: [],
-      oneof_decl: [],
-      options: nil,
-      reserved_name: [],
-      reserved_range: []
-    }
-  end
-
-  field :name, 1, type: :string
-  field :size, 2, type: :int32
-end
-defmodule Spawn.Nx.Protocol.Shape do
-  @moduledoc false
-  use Protobuf, protoc_gen_elixir_version: "0.10.0", syntax: :proto3
-
-  def descriptor do
-    # credo:disable-for-next-line
-    %Google.Protobuf.DescriptorProto{
-      __unknown_fields__: [],
-      enum_type: [],
-      extension: [],
-      extension_range: [],
-      field: [
+        },
         %Google.Protobuf.FieldDescriptorProto{
           __unknown_fields__: [],
           default_value: nil,
           extendee: nil,
-          json_name: "tuple",
-          label: :LABEL_REPEATED,
-          name: "tuple",
-          number: 1,
-          oneof_index: nil,
-          options: nil,
-          proto3_optional: nil,
-          type: :TYPE_SINT64,
-          type_name: nil
-        }
-      ],
-      name: "Shape",
-      nested_type: [],
-      oneof_decl: [],
-      options: nil,
-      reserved_name: [],
-      reserved_range: []
-    }
-  end
-
-  field :tuple, 1, repeated: true, type: :sint64
-end
-defmodule Spawn.Nx.Protocol.Binary do
-  @moduledoc false
-  use Protobuf, protoc_gen_elixir_version: "0.10.0", syntax: :proto3
-
-  def descriptor do
-    # credo:disable-for-next-line
-    %Google.Protobuf.DescriptorProto{
-      __unknown_fields__: [],
-      enum_type: [],
-      extension: [],
-      extension_range: [],
-      field: [
-        %Google.Protobuf.FieldDescriptorProto{
-          __unknown_fields__: [],
-          default_value: nil,
-          extendee: nil,
-          json_name: "data",
+          json_name: "imageSourceBytes",
           label: :LABEL_OPTIONAL,
-          name: "data",
-          number: 1,
+          name: "image_source_bytes",
+          number: 3,
           oneof_index: nil,
           options: nil,
           proto3_optional: nil,
@@ -116,7 +53,7 @@ defmodule Spawn.Nx.Protocol.Binary do
           type_name: nil
         }
       ],
-      name: "Binary",
+      name: "ImageProcessingRequest",
       nested_type: [],
       oneof_decl: [],
       options: nil,
@@ -125,9 +62,11 @@ defmodule Spawn.Nx.Protocol.Binary do
     }
   end
 
-  field :data, 1, type: :bytes
+  field :path, 1, type: :string
+  field :filename, 2, type: :string
+  field :image_source_bytes, 3, type: :bytes, json_name: "imageSourceBytes"
 end
-defmodule Spawn.Nx.Protocol.Tensor do
+defmodule Spawn.Actors.Domain.Orchestrator.ImageProcessingResponse do
   @moduledoc false
   use Protobuf, protoc_gen_elixir_version: "0.10.0", syntax: :proto3
 
@@ -143,46 +82,46 @@ defmodule Spawn.Nx.Protocol.Tensor do
           __unknown_fields__: [],
           default_value: nil,
           extendee: nil,
-          json_name: "type",
+          json_name: "path",
           label: :LABEL_OPTIONAL,
-          name: "type",
+          name: "path",
           number: 1,
-          oneof_index: nil,
-          options: nil,
-          proto3_optional: nil,
-          type: :TYPE_MESSAGE,
-          type_name: ".spawn.nx.protocol.Type"
-        },
-        %Google.Protobuf.FieldDescriptorProto{
-          __unknown_fields__: [],
-          default_value: nil,
-          extendee: nil,
-          json_name: "shape",
-          label: :LABEL_OPTIONAL,
-          name: "shape",
-          number: 2,
-          oneof_index: nil,
-          options: nil,
-          proto3_optional: nil,
-          type: :TYPE_MESSAGE,
-          type_name: ".spawn.nx.protocol.Shape"
-        },
-        %Google.Protobuf.FieldDescriptorProto{
-          __unknown_fields__: [],
-          default_value: nil,
-          extendee: nil,
-          json_name: "names",
-          label: :LABEL_REPEATED,
-          name: "names",
-          number: 3,
           oneof_index: nil,
           options: nil,
           proto3_optional: nil,
           type: :TYPE_STRING,
           type_name: nil
+        },
+        %Google.Protobuf.FieldDescriptorProto{
+          __unknown_fields__: [],
+          default_value: nil,
+          extendee: nil,
+          json_name: "filename",
+          label: :LABEL_OPTIONAL,
+          name: "filename",
+          number: 2,
+          oneof_index: nil,
+          options: nil,
+          proto3_optional: nil,
+          type: :TYPE_STRING,
+          type_name: nil
+        },
+        %Google.Protobuf.FieldDescriptorProto{
+          __unknown_fields__: [],
+          default_value: nil,
+          extendee: nil,
+          json_name: "imageSinkBytes",
+          label: :LABEL_OPTIONAL,
+          name: "image_sink_bytes",
+          number: 3,
+          oneof_index: nil,
+          options: nil,
+          proto3_optional: nil,
+          type: :TYPE_BYTES,
+          type_name: nil
         }
       ],
-      name: "Tensor",
+      name: "ImageProcessingResponse",
       nested_type: [],
       oneof_decl: [],
       options: nil,
@@ -191,7 +130,7 @@ defmodule Spawn.Nx.Protocol.Tensor do
     }
   end
 
-  field :type, 1, type: Spawn.Nx.Protocol.Type
-  field :shape, 2, type: Spawn.Nx.Protocol.Shape
-  field :names, 3, repeated: true, type: :string
+  field :path, 1, type: :string
+  field :filename, 2, type: :string
+  field :image_sink_bytes, 3, type: :bytes, json_name: "imageSinkBytes"
 end

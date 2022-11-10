@@ -4,14 +4,25 @@ defmodule SpawnDistributedImageProcessing do
   """
 
   alias SpawnSdk
-  alias Spawn.Actors.Protocol.Orchestrator.{ImageProcessingRequest, ImageProcessingResponse}
+
+  alias Spawn.Actors.Domain.Orchestrator.{
+    ImageProcessingRequest,
+    ImageProcessingResponse
+  }
 
   @system "sdip-system"
   @orchestrator_actor "orchestrator"
 
-  def push_work(file) do
-    {:ok, image_source_bytes} = File.read(file)
-    task = ImageProcessingRequest.new(image_source_bytes: image_source_bytes)
+  def push_work(path, file) do
+    full_path = Path.join(path, file)
+    {:ok, image_source_bytes} = File.read(full_path)
+
+    task =
+      ImageProcessingRequest.new(
+        path: path,
+        filename: file,
+        image_source_bytes: image_source_bytes
+      )
 
     case SpawnSdk.invoke(
            @orchestrator_actor,

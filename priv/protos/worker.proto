@@ -1,22 +1,20 @@
 syntax = "proto3";
 
-package spawn.actors.protocol.worker;
+package spawn.actors.domain.worker;
 
 import "common.proto";
 
 option java_multiple_files = true;
-option java_package = "spawn.actors.protocol.worker";
+option java_package = "spawn.actors.domain.worker";
 option java_outer_classname = "SpawnDistributedImageProcessingProtos";
 
-// State Message
-message State {
-    // TODO Found state attributes
-}
-
 message ProcessRequest {
-    spawn.actors.protocol.common.Image image = 1;
+    string worker = 1;
+    spawn.actors.domain.common.Image image = 2;
 }
 
 message ProcessResponse {
-    spawn.actors.protocol.common.Image image = 1;
+    string worker = 1;
+    string full_file_path = 2;
+    spawn.actors.domain.common.Image image = 3;
 }

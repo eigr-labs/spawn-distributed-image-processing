@@ -1,4 +1,4 @@
-defmodule Spawn.Actors.Protocol.Common.Image do
+defmodule Spawn.Actors.Domain.Common.Image do
   @moduledoc false
   use Protobuf, protoc_gen_elixir_version: "0.10.0", syntax: :proto3
 
@@ -14,10 +14,38 @@ defmodule Spawn.Actors.Protocol.Common.Image do
           __unknown_fields__: [],
           default_value: nil,
           extendee: nil,
+          json_name: "path",
+          label: :LABEL_OPTIONAL,
+          name: "path",
+          number: 1,
+          oneof_index: nil,
+          options: nil,
+          proto3_optional: nil,
+          type: :TYPE_STRING,
+          type_name: nil
+        },
+        %Google.Protobuf.FieldDescriptorProto{
+          __unknown_fields__: [],
+          default_value: nil,
+          extendee: nil,
+          json_name: "filename",
+          label: :LABEL_OPTIONAL,
+          name: "filename",
+          number: 2,
+          oneof_index: nil,
+          options: nil,
+          proto3_optional: nil,
+          type: :TYPE_STRING,
+          type_name: nil
+        },
+        %Google.Protobuf.FieldDescriptorProto{
+          __unknown_fields__: [],
+          default_value: nil,
+          extendee: nil,
           json_name: "type",
           label: :LABEL_OPTIONAL,
           name: "type",
-          number: 1,
+          number: 3,
           oneof_index: nil,
           options: nil,
           proto3_optional: nil,
@@ -31,7 +59,7 @@ defmodule Spawn.Actors.Protocol.Common.Image do
           json_name: "shape",
           label: :LABEL_OPTIONAL,
           name: "shape",
-          number: 2,
+          number: 4,
           oneof_index: nil,
           options: nil,
           proto3_optional: nil,
@@ -45,7 +73,7 @@ defmodule Spawn.Actors.Protocol.Common.Image do
           json_name: "binary",
           label: :LABEL_OPTIONAL,
           name: "binary",
-          number: 3,
+          number: 5,
           oneof_index: nil,
           options: nil,
           proto3_optional: nil,
@@ -62,7 +90,9 @@ defmodule Spawn.Actors.Protocol.Common.Image do
     }
   end
 
-  field(:type, 1, type: Spawn.Nx.Protocol.Type)
-  field(:shape, 2, type: Spawn.Nx.Protocol.Shape)
-  field(:binary, 3, type: Spawn.Nx.Protocol.Binary)
+  field :path, 1, type: :string
+  field :filename, 2, type: :string
+  field :type, 3, type: Spawn.Nx.Protocol.Type
+  field :shape, 4, type: Spawn.Nx.Protocol.Shape
+  field :binary, 5, type: Spawn.Nx.Protocol.Binary
 end
