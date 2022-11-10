@@ -2,7 +2,7 @@ defmodule SpawnDistributedImageProcessing.Actors.Notification do
   use SpawnSdk.Actor,
     name: "notification",
     channel: "notifications",
-    persistent: false
+    state_type: Eigr.Functions.Protocol.Noop
 
   require Logger
 
